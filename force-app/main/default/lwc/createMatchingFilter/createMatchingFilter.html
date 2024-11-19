@@ -1,0 +1,42 @@
+<template>
+  <lightning-card title="Create Matching Filters" icon-name="custom:custom33">
+    <template for:each={fields} for:item="field" for:index="index">
+      <div key={field.id}
+        class="slds-grid slds-gutters slds-m-bottom_small slds-align-middle slds-m-top_medium slds-m-horizontal_medium">
+
+        <!-- Field combobox with data-id for field selection -->
+        <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
+          <lightning-combobox label={fieldLabel} value={field.fieldvalue} options={fieldOptions} data-id={field.id}
+            onchange={handleFieldChange} class="input-combobox"></lightning-combobox>
+        </div>
+
+        <!-- Matching Type combobox with data-id for matching type selection -->
+        <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
+          <lightning-combobox label="Operator" value={field.OperatorType} options={operators}
+            onchange={handleOperatorChange} class="input-combobox" data-id={field.id}></lightning-combobox>
+        </div>
+
+        <!-- Matching Type combobox with data-id for filter value -->
+        <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
+          <lightning-input label="Value" value={field.filterValue} type={field.fieldDT}
+            onchange={handleFilterValueChange} data-id={field.id}></lightning-input>
+        </div>
+
+
+        <!-- Delete button with data-index to delete the specific field -->
+        <div
+          class="slds-col slds-size_1-of-4 slds-text-align_left slds-p-horizontal_small delete-container slds-m-left_small slds-m-top_large">
+          <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" data-id={field.id}
+            onclick={handleDeleteField}></lightning-button-icon>
+        </div>
+      </div>
+    </template>
+
+    <!-- Add New Field Button -->
+    <lightning-button variant="brand" label="Add New Filter" onclick={addNewFilter}
+      class="slds-m-top_medium slds-m-horizontal_medium"></lightning-button>
+    <lightning-button variant="brand" label="Previous" onclick={previousHandler}
+      class="slds-m-top_medium slds-m-horizontal_medium"></lightning-button>
+    <lightning-button variant="brand" label="Save" onclick={handleSave}></lightning-button>
+  </lightning-card>
+</template>

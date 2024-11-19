@@ -1,0 +1,24 @@
+<template>
+  <lightning-card>
+    <template if:true={duplicateRecFound}>
+      <p>
+        We found {duplicateRecPair} duplicate group(s) for this matching rule.
+      </p>
+      <template for:each={recordDetails} for:item="record">
+        <div key={record.Id}>
+          <!-- Render a lightning-datatable for each duplicate type of records -->
+          <lightning-datatable
+            key-field="Id"
+            data={record}
+            columns={columns}
+            hide-checkbox-column
+          >
+          </lightning-datatable>
+        </div>
+      </template>
+    </template>
+    <template if:false={duplicateRecFound}>
+      <p>No data available.</p>
+    </template>
+  </lightning-card>
+</template>

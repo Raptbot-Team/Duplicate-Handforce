@@ -1,0 +1,110 @@
+/* General Lightning Card Styling */
+lightning-card {
+  /* Gradient background from light blue to blue */
+  border-radius: 12px; /* Smooth rounded corners */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  padding: 20px;
+  color: #0d47a1; /* Dark blue text for readability */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+lightning-card:hover {
+  transform: translateY(-5px); /* Slightly lift the card on hover */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+/* Input Field Styling */
+/* Input Field Styling */
+lightning-input,
+lightning-combobox {
+  background-color: #d6eec7; /* White background for input and combobox */
+  border: 1px solid #097c07; /*Light blue border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px 15px;
+  /* color: #1e88e5;  Text color */
+  font-size: 16px;
+  /* font-weight: bold;  Make text inside the input fields bold */
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+lightning-input:focus,
+lightning-combobox:focus {
+  border-color: #1e88e5; /* Highlight with a darker blue on focus */
+  box-shadow: 0 0 5px rgba(30, 136, 229, 0.5); /* Light blue glow on focus */
+}
+
+/* Input Field Labels Styling */
+lightning-input label,
+lightning-combobox label {
+  font-weight: bold; /* Make label text bold */
+  color: #0d47a1; /* Dark blue color for the labels */
+  font-size: 12px; /* Adjust font size if needed */
+}
+
+/* Optional: Add spacing for labels */
+lightning-input label,
+lightning-combobox label {
+  margin-bottom: 5px; /* Space between label and input */
+}
+
+/* Button Styling */
+.lightning-button {
+  background: linear-gradient(
+    to right,
+    #64b5f6,
+    #2196f3
+  ); /* Bright blue gradient */
+  color: white; /* White text */
+  border-radius: 30px; /* Rounded corners for the buttons */
+  font-weight: bold;
+  padding: 12px 30px;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+}
+
+.lightning-button:hover {
+  background: linear-gradient(
+    to right,
+    #1e88e5,
+    #1565c0
+  ); /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly grow button on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Add shadow on hover */
+}
+
+.lightning-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(30, 136, 229, 0.5); /* Add focus ring on button */
+}
+
+/* Responsive Grid Layout */
+.slds-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
+}
+
+.slds-grid > .slds-col {
+  padding: 0;
+}
+
+/* Save and Next Button - Custom Styling */
+.slds-m-top_medium {
+  margin-top: 25px;
+}
+
+/* Header Styling */
+lightning-card h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0d47a1; /* Dark blue for header */
+  margin-bottom: 15px;
+}
+
+/* Transition Effects */
+* {
+  transition: all 0.3s ease-in-out; /* Smooth transitions for all elements */
+}

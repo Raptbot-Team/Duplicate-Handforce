@@ -1,0 +1,48 @@
+<template>
+    <template if:false={showChildMatchingFilterComponent}>
+        <lightning-card title="Create Matching Fields" icon-name="custom:custom11">
+
+            <template for:each={fields} for:item="field">
+                <div key={field.id}
+                    class="slds-grid slds-gutters slds-m-bottom_small slds-align-middle slds-m-top_medium slds-m-horizontal_medium">
+                    {field.id}
+                    <!-- Field combobox with data-id for field selection -->
+                    <div class="slds-col slds-size_1-of-3 slds-p-horizontal_small">
+                        <lightning-combobox label={fieldLabel} value={field.value} options={fieldOptions}
+                            data-id={field.id} onchange={handleFieldChange} class="input-combobox"></lightning-combobox>
+                    </div>
+
+                    <!-- Matching Type combobox with data-id for matching type selection -->
+                    <div class="slds-col slds-size_1-of-3 slds-p-horizontal_small">
+                        <lightning-combobox label="Matching Type" value={field.matchingType}
+                            options={matchingTypeOptions} onchange={handleMatchingTypeChange} class="input-combobox"
+                            data-id={field.id}></lightning-combobox>
+                    </div>
+
+                    <!-- Delete button with data-index to delete the specific field -->
+                    <div
+                        class="slds-col slds-size_1-of-3 slds-text-align_left slds-p-horizontal_small delete-container ">
+                        <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" data-id={field.id}
+                            onclick={handleDeleteField}
+                            class="slds-m-left_small slds-m-top_large"></lightning-button-icon>
+                    </div>
+                </div>
+            </template>
+            </br>
+            <!-- Add New Field Button -->
+            <lightning-button label="Add New Field" onclick={addNewField} variant="brand"
+                class="slds-m-top_medium slds-m-horizontal_medium"></lightning-button>
+            <lightning-button label="Previous" onclick={previousHandler} variant="brand"
+                class="slds-m-top_medium slds-m-horizontal_medium"></lightning-button>
+            <lightning-button label="Save And Next" variant="brand" onclick={handleSaveAndNext}></lightning-button>
+
+        </lightning-card>
+    </template>
+
+    <!-- Show child component to create matching field when successfully saved -->
+    <template if:true={showChildMatchingFilterComponent}>
+        <c-create-matching-filter matching-rule-id={ruleId} objectapiname={objectApiName} objectlabel={objectLabel}
+            field-options={fieldOptions} ongoprevious={handleGoPrevious}
+            ongofirstscreen={handlegofirstscreen}></c-create-matching-filter>
+    </template>
+</template>

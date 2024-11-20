@@ -4,19 +4,22 @@
       <p>
         We found {duplicateRecPair} duplicate group(s) for this matching rule.
       </p>
-      <template for:each={recordDetails} for:item="record">
-        <div key={record.Id}>
-          <!-- Render a lightning-datatable for each duplicate type of records -->
-          <lightning-datatable
-            key-field="Id"
-            data={record}
-            columns={columns}
-            hide-checkbox-column
-          >
-          </lightning-datatable>
-        </div>
+        <template for:each={preparedRecordDetails} for:item="group" for:index="index">
+          <div key={index.Id}>
+            <!-- Master record row -->
+              <lightning-datatable key-field="Id" data={group.master} columns={masterColumns} hide-checkbox-column
+                 onrowaction={handleRowAction} data-index={index}>
+              </lightning-datatable>
+
+            <!-- Child records table -->
+            <div class="child-records" data-index={index} style="display: none;">
+              <lightning-datatable hide-table-header="true" key-field="Id" data={group.children} columns={columns}
+                hide-checkbox-column>
+              </lightning-datatable>
+            </div>
+          </div>
+        </template>
       </template>
-    </template>
     <template if:false={duplicateRecFound}>
       <p>No data available.</p>
     </template>

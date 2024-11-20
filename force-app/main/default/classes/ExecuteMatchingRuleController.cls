@@ -10,7 +10,7 @@ public with sharing class ExecuteMatchingRuleController {
     List<Matching_Rule__c> matchingDetails = [
       SELECT
         SObject__c,
-        (
+        (    
           SELECT Field_Api_Name__c, Matching_Type__c
           FROM Matching_Fields__r
         ),

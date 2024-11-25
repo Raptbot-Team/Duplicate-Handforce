@@ -1,0 +1,121 @@
+/* General Grid Styling */
+.slds-grid {
+  display: flex;
+  gap: 1rem; /* Added consistent spacing between grid items */
+  justify-content: space-between; /* Ensure items are spaced evenly */
+  align-items: center; /* Align items properly within the container */
+  background-color: #eef7a0; /* Light green background for grid */
+  border: 1px solid #335c03;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Column Styling */
+.slds-col {
+  flex: 1; /* Ensure columns take equal width */
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column; /* Arrange items in a column */
+}
+
+/* Lightning Card Styling */
+.lightning-card {
+  background: linear-gradient(to right, #e3f2fd, #bbdefb);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Combobox Styling */
+.lightning-combobox {
+  display: flex;
+  flex-direction: column;
+}
+
+.lightning-combobox .slds-select {
+  border: 1px solid #64b5f6;
+  border-radius: 5px;
+  font-weight: bold; /* Ensure combobox value text is bold */
+  color: #1e88e5;
+  background-color: #e3f2fd;
+  padding: 0.5rem;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.lightning-combobox .slds-select:hover {
+  border-color: #1e88e5;
+  background-color: #bbdefb;
+}
+
+/* Combobox Labels Styling (Bold) */
+lightning-combobox label {
+  color: #0d47a1;
+  font-weight: bold; /* Make label bold */
+  margin-bottom: 0.5rem;
+}
+
+/* Input Field Styling */
+lightning-input {
+  font-weight: bold; /* Ensure the input field text is bold */
+}
+
+/* Input Labels Styling (Bold) */
+lightning-input label {
+  color: #0d47a1;
+  font-weight: bold; /* Make input label bold */
+  margin-bottom: 0.5rem;
+}
+
+/* Buttons Styling */
+.lightning-button {
+  background-color: #64b5f6;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  margin: 10px 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.lightning-button:hover {
+  background-color: #1e88e5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Delete Button Styling */
+.delete-container .slds-button_icon {
+  color: #ffffff; /* White text for better contrast */
+  background-color: #d32f2f; /* Red background */
+  border-radius: 50%; /* Circular button */
+  padding: 10px;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.delete-container .slds-button_icon:hover {
+  color: #ffffff; /* Keep text white on hover */
+  background-color: #b71c1c; /* Darker red on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add slight shadow on hover */
+}
+
+/* Spacing and Margins */
+.slds-m-bottom_small {
+  margin-bottom: 1rem;
+}
+
+.slds-m-top_medium {
+  margin-top: 1.5rem;
+}
+
+.slds-m-horizontal_medium {
+  margin: 0 1rem;
+}
+
+/* Ensure alignment for vertical middle */
+.slds-align-middle {
+  align-items: center;
+}
+
+/* Text Alignment */
+.slds-text-align_left {
+  text-align: left;
+}

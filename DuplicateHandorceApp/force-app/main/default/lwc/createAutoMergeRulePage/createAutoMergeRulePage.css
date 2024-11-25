@@ -1,0 +1,50 @@
+.container {
+  padding: 1rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #d6f7c6;
+  border-radius: 5px;
+  background-color: #d9f3b1;
+}
+
+.section h2 {
+  font-size: 1.0rem; /* Adjusted for larger text size */
+  font-weight: bold; /* Makes the text bold */
+  margin-bottom: 1rem;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.field-row label {
+  flex: 1;
+  margin-right: 0.5rem; /* Reduced margin for less space between label and field */
+  font-weight: bold;
+}
+
+.field-row lightning-combobox,
+.field-row lightning-input {
+  flex: 2;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.run-button {
+  font-size: 1.0rem;
+  margin-left: 1rem;
+}
+
+.button-container {
+  justify-content: center; /* Center buttons horizontally */
+  display: flex;/* This spaces the buttons evenly */
+  gap: 5px; /* Optional: Adjust the gap between the buttons */
+}

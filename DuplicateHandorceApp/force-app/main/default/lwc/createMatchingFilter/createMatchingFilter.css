@@ -1,0 +1,87 @@
+/* Overall card styling */
+.lightning-card {
+  background: linear-gradient(
+    to right,
+    #f3e5f5,
+    #e1bee7
+  ); /* Soft gradient background */
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Combobox and Input Fields Styling */
+.input-combobox,
+lightning-input {
+  border: 1px solid #d1c4e9;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #6a1b9a;
+  background-color: #ede7f6;
+}
+
+.input-combobox:hover,
+lightning-input:hover {
+  border-color: #9575cd;
+  background-color: #d1c4e9;
+}
+
+.lightning-input input {
+  padding: 5px 10px;
+}
+
+/* Labels */
+.lightning-combobox label,
+lightning-input label {
+  color: #4527a0;
+  font-weight: bold;
+}
+
+/* Buttons Styling */
+.lightning-button {
+  background: #7e57c2;
+  color: #ffffff;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+.lightning-button:hover {
+  background: #5e35b1;
+}
+
+/* Delete Button Styling */
+.delete-container .slds-button_icon {
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.delete-container .slds-button_icon:hover {
+  background: #ef9a9a;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Grid Item Styling */
+.slds-grid {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Spacing and Alignment */
+.slds-m-bottom_small {
+  margin-bottom: 15px;
+}
+
+.slds-m-top_medium {
+  margin-top: 20px;
+}
+
+.slds-m-horizontal_medium {
+  margin-left: 10px;
+  margin-right: 10px;
+}

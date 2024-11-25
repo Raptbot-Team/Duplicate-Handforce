@@ -1,0 +1,104 @@
+<template>
+  <lightning-card title="Create Auto Merge Rule" icon-name="custom:custom11">
+    <div class="container">
+      <!-- Master Record Definition -->
+      <section class="section">
+        <h2>Master Record Definition</h2>
+        <div class="row">
+          <lightning-combobox label="Master Record Strategy" value={masterStrategy} placeholder="Select Master Strategy"
+            options={masterRecordStrategyOptions} onchange={handleMasterRecordStrategyChange}>
+          </lightning-combobox>
+        </div>
+        <div class="row">
+          <lightning-combobox label="Fallback Strategy" value={fallbackStrategy} placeholder="Select Fallback Strategy"
+            options={fallbackStrategyOptions} onchange={handleFallbackStrategyChange}>
+          </lightning-combobox>
+        </div>
+        <!--div class="row">
+          <lightning-combobox label="Field" name="field" value={field} placeholder="Select Field"
+            options={fieldOptions}>
+          </lightning-combobox>
+        </div>
+        <div class="row">
+          <lightning-input label="Field Value" type="text" name="fieldValue" placeholder="Search Accounts"
+            value={fieldValue}>
+          </lightning-input>
+          <lightning-button label="Add" onclick={handleAdd}></lightning-button>
+        </div-->
+      </section>
+
+      <!-- Conversion Options -->
+      <!--section class="section">
+        <h2>Conversion Options</h2>
+        <div class="row">
+          <lightning-combobox label="Blank Account Strategy" name="accountStrategy" value={accountStrategy}
+            options={accountStrategyOptions}>
+          </lightning-combobox>
+        </div>
+        <div class="row">
+          <lightning-combobox label="Opportunity Strategy" name="opportunityStrategy" value={opportunityStrategy}
+            options={opportunityStrategyOptions}>
+          </lightning-combobox>
+        </div>
+        <div class="row">
+          <lightning-combobox label="Converted Status" name="convertedStatus" value={convertedStatus}
+            options={convertedStatusOptions}>
+          </lightning-combobox>
+        </div>
+      </section-->
+
+      <!-- Field Value Definition -->
+      <section class="section">
+        <h2>Field Value Definition</h2>
+        <div class="row">
+          <lightning-combobox label="Field Value Strategy" value={fieldValueStrategy} options={fieldValueRuleOptions}
+            onchange={handlefieldValueRuleChange}>
+          </lightning-combobox>
+        </div>
+      </section>
+
+      <!-- Overridden Field Value Strategies Definition -->
+      <section class="section">
+        <h2>Overridden Field Value Strategies</h2>
+
+        <template for:each={fields} for:item="field" for:index="index">
+          <div key={field.id}
+            class="slds-grid slds-gutters slds-m-bottom_small slds-align-middle slds-m-top_medium slds-m-horizontal_medium">
+
+            <!-- Field combobox with data-id for field selection -->
+            <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
+              <lightning-combobox label="Field" value={field.fieldOption} options={fieldOptions} data-id={field.id}
+                onchange={handleOverriddenFieldChange} class="input-combobox"></lightning-combobox>
+            </div>
+
+            <!-- Matching Type combobox with data-id for matching type selection -->
+            <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
+              <lightning-combobox label="Strategy" value={field.strategyType} options={strategyOptions}
+                onchange={handleOverriddenStrategiesChange} class="input-combobox"
+                data-id={field.id}></lightning-combobox>
+            </div>
+
+            <!-- Delete button with data-index to delete the specific field -->
+            <div
+              class="slds-col slds-size_1-of-4 slds-text-align_left slds-p-horizontal_small delete-container slds-m-left_small slds-m-top_large">
+              <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" data-id={field.id}
+                onclick={handleDeleteField}></lightning-button-icon>
+            </div>
+          </div>
+        </template>
+
+
+
+        <lightning-button label="Add New Field" onclick={addNewOverrideField}></lightning-button>
+      </section>
+
+      <!-- Footer Buttons -->
+      <div class="button-container">
+        <lightning-button label="Show Results"></lightning-button>
+        <lightning-button label="Setup Schedule"></lightning-button>
+        <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
+        <lightning-button label="Save & Run" variant="success"></lightning-button>
+      </div>
+    </div>
+  </lightning-card>
+</template>

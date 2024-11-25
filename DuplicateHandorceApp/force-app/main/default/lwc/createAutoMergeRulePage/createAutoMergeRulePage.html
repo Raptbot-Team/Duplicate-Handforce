@@ -5,13 +5,13 @@
       <section class="section">
         <h2>Master Record Definition</h2>
         <div class="row">
-          <lightning-combobox label="Master Record Strategy" name="masterStrategy" value={masterStrategy}
-            placeholder="Select Master Strategy" options={masterRecordStrategyOptions}>
+          <lightning-combobox label="Master Record Strategy" value={masterStrategy} placeholder="Select Master Strategy"
+            options={masterRecordStrategyOptions} onchange={handleMasterRecordStrategyChange}>
           </lightning-combobox>
         </div>
         <div class="row">
-          <lightning-combobox label="Fallback Strategy" name="fallbackStrategy" value={fallbackStrategy}
-            placeholder="Select Fallback Strategy" options={fallbackStrategyOptions}>
+          <lightning-combobox label="Fallback Strategy" value={fallbackStrategy} placeholder="Select Fallback Strategy"
+            options={fallbackStrategyOptions} onchange={handleFallbackStrategyChange}>
           </lightning-combobox>
         </div>
         <!--div class="row">
@@ -51,8 +51,8 @@
       <section class="section">
         <h2>Field Value Definition</h2>
         <div class="row">
-          <lightning-combobox label="Field Value Strategy" name="fieldValueStrategy" value={fieldValueStrategy}
-            options={fieldValueRuleOptions}>
+          <lightning-combobox label="Field Value Strategy" value={fieldValueStrategy} options={fieldValueRuleOptions}
+            onchange={handlefieldValueRuleChange}>
           </lightning-combobox>
         </div>
       </section>
@@ -68,13 +68,14 @@
             <!-- Field combobox with data-id for field selection -->
             <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
               <lightning-combobox label="Field" value={field.fieldOption} options={fieldOptions} data-id={field.id}
-                onchange={handleFieldChange} class="input-combobox"></lightning-combobox>
+                onchange={handleOverriddenFieldChange} class="input-combobox"></lightning-combobox>
             </div>
 
             <!-- Matching Type combobox with data-id for matching type selection -->
             <div class="slds-col slds-size_1-of-4 slds-p-horizontal_small">
               <lightning-combobox label="Strategy" value={field.strategyType} options={strategyOptions}
-                onchange={handleOperatorChange} class="input-combobox" data-id={field.id}></lightning-combobox>
+                onchange={handleOverriddenStrategiesChange} class="input-combobox"
+                data-id={field.id}></lightning-combobox>
             </div>
 
             <!-- Delete button with data-index to delete the specific field -->
@@ -95,7 +96,7 @@
       <div class="button-container">
         <lightning-button label="Show Results"></lightning-button>
         <lightning-button label="Setup Schedule"></lightning-button>
-        <lightning-button label="Save" variant="brand"></lightning-button>
+        <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
         <lightning-button label="Save & Run" variant="success"></lightning-button>
       </div>
     </div>

@@ -1,5 +1,23 @@
 public with sharing class MatchingRuleController {
 
+
+    @AuraEnabled
+    public static List<Map<String, String>> getStrategyPicklistOptionsFromOveriddedFieldObject() {
+
+        List<Map<String, String>> masterRecordStrategyOptions = new List<Map<String, String>>();
+        // Get picklist values
+        Schema.DescribeFieldResult field1Describe = Overridden_Field_Value_Strategy__c.Strategy__c.getDescribe();
+        List<Schema.PicklistEntry> field1PicklistValues = field1Describe.getPicklistValues();
+        for (Schema.PicklistEntry entry : field1PicklistValues) {
+            masterRecordStrategyOptions.add(new Map<String, String>{
+                'label' => entry.getLabel(),
+                'value' => entry.getValue()
+            });
+            
+        }
+        return masterRecordStrategyOptions;
+    }
+
     @AuraEnabled(cacheable=true)
     public static Map<String, List<Map<String, String>>> getPicklistOptions() {
         Map<String, List<Map<String, String>>> optionsMap = new Map<String, List<Map<String, String>>>();
@@ -46,16 +64,18 @@ public with sharing class MatchingRuleController {
     @AuraEnabled
     public static Map<String, String> getObjectFields(String objectName) {
         Map<String, String> fieldMap = new Map<String, String>();
+        system.debug('objectName:: ==>> '+objectName);
         try {
             // Get object description
             Schema.DescribeSObjectResult describeResult = Schema.getGlobalDescribe().get(objectName).getDescribe();
             Map<String, Schema.SObjectField> fields = describeResult.fields.getMap();
-
+            system.debug('Fields:: ==>> '+fields);
             // Iterate over fields and populate the map
             for (String fieldName : fields.keySet()) {
                 Schema.DescribeFieldResult fieldDescribe = fields.get(fieldName).getDescribe();
                 fieldMap.put(fieldDescribe.getName(), fieldDescribe.getLabel());
             }
+            system.debug('fieldMap:: ==>> '+fieldMap);
         } catch (Exception e) {
             throw new AuraHandledException('Error retrieving fields for ' + objectName + ': ' + e.getMessage());
         }

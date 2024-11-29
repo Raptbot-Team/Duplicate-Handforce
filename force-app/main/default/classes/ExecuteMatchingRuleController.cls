@@ -30,14 +30,12 @@ public with sharing class ExecuteMatchingRuleController {
     filterStr = convertMatchingFiltersIntoString(
       matchingRule.Matching_Filters__r
     );
-    System.debug('filterStr --- ' + filterStr);
 
     // call the convertMatchingFieldsIntoString method to convert the filter into String
     String fieldStr = convertMatchingFieldsIntoString(
       matchingRule.Matching_Fields__r,
       objectType
     );
-    System.debug('fieldStr --- ' + fieldStr);
 
     //fetch the duplicate records from the database of the respective object
     String filteredField = '';
@@ -55,47 +53,43 @@ public with sharing class ExecuteMatchingRuleController {
         duplicatefieldName.clear();
         duplicatefieldName.addAll(uniqueFieldNames);
         fieldsToRegroup.addAll(filterFieldName);
-        System.debug(
-          'duplicatefieldName after assigning set --- ' + duplicatefieldName
-        );
-        System.debug('uniqueFieldNames-- ' + uniqueFieldNames);
       }
       duplicatefieldName.add(0, 'Id');
       if (!duplicatefieldName.contains('Name')) {
         duplicatefieldName.add(1, 'Name');
       }
 
-      System.debug('duplicatefieldName-- ' + duplicatefieldName);
+      Map<String, String> fieldNameWithAPI = getFields(objectType);
+      System.debug('fieldNameWithAPI --- ' + fieldNameWithAPI);
+
       String soqlQuery =
         'SELECT ' +
-        String.join(duplicatefieldName, ',') +
+        String.join(fieldNameWithAPI.keySet(), ',') +
         ' FROM ' +
         objectType +
         ' WHERE (' +
         fieldStr +
         ')' +
         filterStr +
-        ' ORDER BY ' +
-        String.join(duplicatefieldName, ',') +
-        ' NULLS LAST';
-      System.debug('soql query --- ' + soqlQuery);
+        ' ORDER BY LastModifiedDate';
       List<SObject> matchingRecords = Database.query(soqlQuery);
-      System.debug('matching records --- ' + matchingRecords);
-      System.debug(
-        'matchingCombinationList Today -- ' + matchingCombinationList
-      );
-
-      System.debug('fieldsToRegroup --- ' + fieldsToRegroup);
       Map<String, List<SObject>> groupedDuplicateMap = groupDuplicates(
         matchingRecords,
         fieldsToRegroup
       );
-      System.debug('groupedDuplicateMap --- ' + groupedDuplicateMap);
-      System.debug('dupFields ----- ' + duplicatefieldName);
 
+      //call the method to convert the map into map of list of field value
+      // Map<String, List<Object>> mapOfFieldValue = convertMatchingRecordsInMap(
+      //   matchingRecords,
+      //   fieldNameWithAPI
+      // );
+
+     
       return new Map<String, Object>{
         'duplicateRecords' => groupedDuplicateMap,
-        'fieldNames' => duplicatefieldName
+        'fieldNames' => duplicatefieldName,
+        // 'mapOfFieldValues' => mapOfFieldValue,
+        'fieldNameWithAPI' => fieldNameWithAPI
       };
     }
     return new Map<String, Object>();
@@ -129,7 +123,7 @@ public with sharing class ExecuteMatchingRuleController {
       if (matchingFilter.Value__c != null) {
         value = matchingFilter.Value__c;
       }
-      filterString +=
+                            filterString +=
         ' AND ' +
         matchingFilter.Field_Api_Name__c +
         ' ' +
@@ -140,14 +134,11 @@ public with sharing class ExecuteMatchingRuleController {
         '\'';
       filterFieldName.add(matchingFilter.Field_Api_Name__c);
     }
-    //filterFieldName.removeEnd(',');
     return filterString;
   }
 
   //method to convert matching fields into String to utilize it in dynamic Query
-  public static String convertMatchingFieldsIntoString(
-    List<Matching_Field__c> matchingFields,
-    String ObjectName
+  public static String convertMatchingFieldsIntoString(List<Matching_Field__c> matchingFields, String ObjectName
   ) {
     String fieldString = '';
     List<String> fieldName = new List<String>();
@@ -158,9 +149,7 @@ public with sharing class ExecuteMatchingRuleController {
       }
     }
     if (fieldName.size() > 0) {
-      System.debug('fieldName === ' + fieldName);
       duplicatefieldName = fieldName;
-      System.debug('duplicatefieldName at initial == ' + duplicatefieldName);
     }
     List<List<String>> duplicateCombinations = new List<List<String>>();
 
@@ -175,7 +164,6 @@ public with sharing class ExecuteMatchingRuleController {
     List<AggregateResult> results = Database.query(
       dynamicQueryToFindDuplicateRec
     );
-    System.debug('results --- ' + results);
     String conditionString = '';
     if (results.size() > 0) {
       for (AggregateResult ar : results) {
@@ -184,7 +172,6 @@ public with sharing class ExecuteMatchingRuleController {
         for (Integer i = 0; i < fieldName.size(); i++) {
           String val = '';
           if (ar.get(fieldName[i]) != null) {
-            system.debug('ar.get(fieldName[i])-- ' + ar.get(fieldName[i]));
             val += '\'' + ar.get(fieldName[i]) + '\'';
           } else {
             val += ar.get(fieldName[i]);
@@ -192,36 +179,24 @@ public with sharing class ExecuteMatchingRuleController {
           conditionString += fieldName[i] + ' = ' + val + ' AND ';
           matchingCombinationEle.put(fieldName[i], val);
         }
-
         matchingCombinationList.add(matchingCombinationEle);
-
-        System.debug('conditionString In between -- ' + conditionString);
         conditionString = conditionString.removeEnd(' AND ');
         conditionString += ')';
       }
       conditionString = conditionString.removeStart(' OR ');
-
-      System.debug('Condition string -- ' + conditionString);
-
       return conditionString;
     }
     return conditionString;
   }
 
   // Method to group duplicate records in list of maps based on duplicate fields
-  public static Map<String, List<SObject>> groupDuplicates(
-    List<SObject> matchingRecords,
-    List<String> fieldsToGroupBy
-  ) {
-    System.debug('fieldsToGroupBy --- ' + fieldsToGroupBy);
+  public static Map<String, List<SObject>> groupDuplicates(List<SObject> matchingRecords, List<String> fieldsToGroupBy) {
     // Map to store groups of records, key is a composite of field values
     Map<String, List<SObject>> groupedRecords = new Map<String, List<SObject>>();
 
     for (SObject record : matchingRecords) {
       // call the buildKey method to create a dynamic key based on the selected fields
       String key = buildKey(record, fieldsToGroupBy);
-      System.debug('key ==== ' + key);
-
       if (!groupedRecords.containsKey(key)) {
         groupedRecords.put(key, new List<SObject>());
       }
@@ -235,15 +210,50 @@ public with sharing class ExecuteMatchingRuleController {
 
   // Helper method to build a unique key from the selected fields of an SObject
   public static String buildKey(SObject record, List<String> fieldsToGroupBy) {
-    System.debug('buildKey method called');
     String key = '';
-    // System.debug('fieldsToGroupBy --- ' + fieldsToGroupBy);
     for (String field : fieldsToGroupBy) {
       Object value = record.get(field);
       key += (value == null ? 'null' : value.toString()) + ' & ';
     }
     // Remove the trailing ' & ' character
-
     return key.length() > 0 ? key.substring(0, key.length() - 3) : '';
+  }
+
+//method to convert matching records into map of string and list of sobject to use it in modal/popup
+  // public static Map<String, List<Object>> convertMatchingRecordsInMap(List<SObject> matchingRecs, Map<String, String> fieldMap){
+  //   Map<String, List<Object>> matchingRecordsMap = new Map<String, List<Object>>();
+  //   for (SObject dupRec : matchingRecs) {
+  //     for (String field : fieldMap.keySet()) {
+  //       Object individualFieldVal;
+  //       String fieldLabel = fieldMap.get(field);
+  //       individualFieldVal = dupRec.get(field);
+  //       if(individualFieldVal != null){
+  //         if (matchingRecordsMap.containsKey(fieldLabel)) {
+  //           matchingRecordsMap.get(fieldLabel).add(individualFieldVal);
+  //         } else {
+  //           matchingRecordsMap.put(fieldLabel, new List<Object>{ individualFieldVal });
+  //         }
+  //       } else{
+  //         if (matchingRecordsMap.containsKey(fieldLabel)) {
+  //           matchingRecordsMap.get(fieldLabel).add('Null');
+  //         } else {
+  //           matchingRecordsMap.put(fieldLabel, new List<Object>{'Null'});
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return matchingRecordsMap;
+  // }
+
+// Method to get field API Name and Field Label of the corresponding Object's fields
+  public static Map<String, String> getFields(String objectName) {
+    Map<String, String> fieldAPIWithLabel = new Map<String, String>();
+    Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+    // Loop the keyset of map.
+    for( String fieldName : fieldMap.keySet() ) {
+      Schema.DescribeFieldResult fieldDescription = fieldMap.get(fieldName).getDescribe();
+      fieldAPIWithLabel.put(fieldDescription.getName(), fieldDescription.getLabel());
+    }
+    return fieldAPIWithLabel;
   }
 }
